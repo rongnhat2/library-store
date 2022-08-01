@@ -1,0 +1,196 @@
+#tg-header{
+	background-color: #fff;
+}
+.tg-authorimg{
+	width: 200px; 
+	height: auto;
+	border-radius: 0;
+}
+.tg-authorimg a{
+	border-radius: 0;
+}
+#tg-homeslider .item{
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.item.tg-author figure > a{
+	width: 100%;
+	padding: 0 0 100% 0;
+	display: block;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.tg-booktitle h3 a{
+    overflow: hidden;
+    white-space: nowrap; 
+    text-overflow: ellipsis;
+    width: 100%;
+    display: block;
+}
+.tg-widgetcontent li{
+    width: 50%;
+    float: left;
+}
+.tg-header .user-login-wrapper{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.tg-header .user-login-wrapper figure{
+    margin: 15px 10px;
+}
+.content-area{
+    margin: 50px 0;
+}
+.button-submit{
+    width: 130px;
+    height: 40px;
+    background-color: #77b748;
+    color: #fff;
+    margin: 0 10px 0 0;
+}
+
+
+.js-errors{
+    border: 1px dashed #fd6c6c;
+    padding: 10px 30px;
+    margin: 0 0 10px 0;
+    border-radius: 4px;
+}
+.js-errors li{
+    color: #fd6c6c;
+}
+
+.js-response{
+    border: 1px solid #f64600;
+    padding: 10px 30px;
+    margin: 0 0 10px 0;
+    border-radius: 4px;
+}
+.js-errors{
+    border-color: #f64600;
+}
+.js-errors li{
+   color: #f64600;
+}
+.js-success{
+    border-color: #00c9a7;
+}
+.js-success li{
+   color: #00c9a7;
+}
+
+/* -------------------- */
+/*        login         */
+/* -------------------- */
+.customer_login .title-login {
+    border: 1px solid #f1f1f1;
+    margin: 0;
+    border-bottom: 0;
+    font-size: 18px;
+    padding: 25px 40px;
+    color: #222;
+    font-weight: 500;
+}
+.customer_login .login, .customer_login .register {
+    border: 1px solid #f1f1f1;
+    padding: 25px 40px;
+}
+.login .social-account {
+    margin-bottom: 20px;
+}
+.social-account .title-social {
+    color: #aaa;
+    margin-bottom: 20px;
+    font-family: inherit;
+    letter-spacing: 0;
+}
+.social-account .mxh-item {
+    font-size: 13px;
+    font-weight: 500;
+    color: #222;
+    margin-right: 30px;
+}
+.social-account .icon {
+    font-size: 23px;
+    vertical-align: middle;
+}
+.social-account .text {
+    vertical-align: middle;
+    padding-left: 5px;
+}
+.customer_login .form-row-wide .text {
+    margin-bottom: 5px;
+    font-size: 14px;
+    color: #222;
+    font-weight: 500;
+    text-transform: none;
+    display: block;
+}
+.customer_login input[type="text"],
+.customer_login input[type="email"],
+.customer_login input[type="password"] {
+    margin-bottom: 0;
+    width: 100%;
+    border-color: #f1f1f1;
+}
+.customer_login input[type="checkbox"] {
+    display: none;
+}
+.customer_login .label-text {
+    cursor: pointer;
+    font-size: 14px;
+    color: #888;
+    margin: 0;
+    padding-left: 25px;
+    position: relative;
+    font-weight: normal;
+}
+.customer_login input[type="checkbox"]:checked + label::before, .customer_login .label-text:hover::before {
+    font-family: 'FontAwesome';
+    content: "\f00c";
+    display: inline-block;
+    top: 5px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    text-align: center;
+    font-size: 14px;
+    color: #222;
+    position: absolute;
+    z-index: 2;
+    padding: 0;
+    line-height: 14px;
+}
+.customer_login input[type="checkbox"] + label::after {
+    position: absolute;
+    z-index: 1;
+    content: "";
+    left: 0;
+    top: 2px;
+    width: 20px;
+    height: 20px;
+    border: solid 1px #eeeeee;
+}
+.customer_login .lost_password .forgot-pw {
+    font-size: 14px;
+    color: #222;
+    font-weight: 500;
+    float: right
+}
+.customer_login .label-text span {
+    font-size: 14px;
+    color: #222;
+    font-weight: 500;
+}
+.customer_login .login-item:hover {
+    box-shadow: 0 0 10px #ddd;
+    z-index: 2;
+    background-color: #fff;
+    border-radius: 0;
+}
+/* -------------------- */
