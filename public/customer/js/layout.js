@@ -101,7 +101,7 @@ const IndexView = {
         IndexView.Cart.update();
     })
 
-    ViewIndex.onSearch((fd, text) => {
+    IndexView.onSearch((fd, text) => {
         Api.Product.GetSearch(fd)
             .done(res => { 
                 $('.suggest-list .suggess-wrapper').remove()
