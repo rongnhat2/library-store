@@ -122,7 +122,7 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
         $status         = $request->status;
         $where_sql      = "";
 
-        if ($category_id > 0) $where_sql = " WHERE category_id = ".$category_id;
+        if ($category_id > 0) $where_sql = " AND category_id = ".$category_id;
         if ($keyword != "") $where_sql = " AND name like '".$category_id."'";
         if ($status == "new") {
             $where_sql = " ORDER BY created_at DESC";
@@ -151,7 +151,7 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
         $status         = $request->status;
         $where_sql      = "";
 
-        if ($category_id > 0) $where_sql = " WHERE category_id = ".$category_id;
+        if ($category_id > 0) $where_sql = " AND category_id = ".$category_id;
         if ($keyword != "") $where_sql = " AND name like '".$category_id."'";
         if ($status == "new") {
             $where_sql = " ORDER BY created_at DESC";
