@@ -45,6 +45,7 @@ class ProductController extends Controller
             "detail"        => $request->data_detail ?? "", 
             "metadata"      => $request->data_meta,
             "trending"      => 0,
+            "view"          => 0,
         ];  
         $data_return = $this->product->create($data);
         return $this->product->send_response("Created", $data_return, 201);

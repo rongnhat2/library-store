@@ -61,21 +61,22 @@ Route::prefix('customer')->group(function () {
 
 
         Route::prefix('category')->group(function () {
-            Route::get('get', 'Customer\CategoryController@get')->name('customer.category.get');
+            Route::get('get', 'Admin\CategoryController@get')->name('customer.category.get');
         }); 
         Route::prefix('product')->group(function () {
             Route::get('get-new', 'Customer\ProductController@get_new')->name('customer.product.get.new');
             Route::get('get-trending', 'Customer\ProductController@get_trending')->name('customer.product.get.trending');
             Route::get('get-author', 'Customer\ProductController@get_author')->name('customer.product.get.author');
+            Route::get('get-one/{id}', 'Customer\ProductController@get_one')->name('customer.product.get.one');
+            Route::get('get-top-view', 'Customer\ProductController@get_top_view')->name('customer.product.get.top_view'); 
+            Route::get('get-best-discount', 'Customer\ProductController@get_best_discount')->name('customer.product.get.best_discount');
 
 
             Route::get('get-all', 'Customer\ProductController@get_all')->name('customer.product.get.all');
             Route::get('get-new-arrivals', 'Customer\ProductController@get_new_arrivals')->name('customer.product.get.new_arrivals');
-            Route::get('get-top-view', 'Customer\ProductController@get_top_view')->name('customer.product.get.top_view'); 
             Route::get('get-discount', 'Customer\ProductController@get_discount')->name('customer.product.get.discount');
             Route::get('get-item-category/{id}', 'Customer\ProductController@get_item_category')->name('customer.product.get.item_category'); 
             Route::post('get-search', 'Customer\ProductController@get_search')->name('customer.product.get.search');
-            Route::get('get-one/{id}', 'Customer\ProductController@get_one')->name('customer.product.get.one');
             Route::get('get-one-cart/{id}', 'Customer\ProductController@get_one_cart')->name('customer.product.get.cart');
             Route::get('get-recently/{item}', 'Customer\ProductController@get_recently')->name('customer.product.get.recently');
             Route::get('get-related/{id}', 'Customer\ProductController@get_related')->name('customer.product.get.related');
@@ -107,14 +108,19 @@ Route::middleware(['AuthAdmin:admin'])->group(function () {
 
         Route::prefix('author')->group(function () {
             Route::get('/', 'Admin\AuthorController@index')->name('admin.author.index');
-        });
-
+        }); 
         Route::prefix('category')->group(function () {
             Route::get('/', 'Admin\CategoryController@index')->name('admin.category.index');
         });
         Route::prefix('product')->group(function () {
             Route::get('/', 'Admin\ProductController@index')->name('admin.product.index');
         });
+        Route::prefix('discount')->group(function () {
+            Route::get('/', 'Admin\DiscountController@index')->name('admin.discount.index');
+        });
+
+
+
         Route::prefix('warehouse')->group(function () {
             Route::get('/', 'Admin\WarehouseController@index')->name('admin.warehouse.index');
         });
@@ -148,6 +154,13 @@ Route::middleware(['AuthAdmin:admin'])->group(function () {
             Route::put('/update-trending', 'Admin\ProductController@update_trending')->name('admin.product.trending.update');
             Route::post('/update', 'Admin\ProductController@update')->name('admin.product.update');
             Route::get('/delete/{id}', 'Admin\ProductController@delete')->name('admin.product.delete');
+        });
+
+        Route::prefix('discount')->group(function () {
+            Route::get('get', 'Admin\DiscountController@get')->name('admin.discount.get'); 
+            Route::get('get-not', 'Admin\DiscountController@get_not')->name('admin.discount.get_not'); 
+            Route::post('store', 'Admin\DiscountController@store')->name('admin.discount.store');  
+            Route::get('/delete/{id}', 'Admin\DiscountController@delete')->name('admin.discount.delete');
         });
 
         // Route::prefix('warehouse')->group(function () {

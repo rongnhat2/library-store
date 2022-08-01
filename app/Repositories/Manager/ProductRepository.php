@@ -28,10 +28,13 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
     }
     public function get_one($id){
         $sql = "SELECT product.*,
-                    category.name as category_name
+                    category.name as category_name,
+                    author.name as author_name
                 FROM product 
                 LEFT JOIN category
                 ON category.id = product.category_id 
+                LEFT JOIN author
+                ON author.id = product.author_id 
                 WHERE product.id = ".$id;
         return DB::select($sql);
     }
@@ -69,18 +72,57 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
         return DB::select($sql);
     } 
     
+    public function get_data_discount(){
+        $sql = "SELECT  *
+                FROM product
+                WHERE discount != 0";
+        return DB::select($sql);
+    } 
+    public function get_data_not_discount(){
+        $sql = "SELECT  *
+                FROM product
+                WHERE discount = 0";
+        return DB::select($sql);
+    } 
+    public function get_top_view($limit){
+        $sql = "SELECT  product.*,
+                        category.name as category_name, 
+                        author.name as author_name
+                FROM product 
+                LEFT JOIN category
+                ON category.id = product.category_id
+                LEFT JOIN author
+                ON author.id = product.author_id
+                ORDER BY product.view DESC
+                LIMIT ".$limit;
+        return DB::select($sql);
+    }
+    public function get_best_discount(){
+        $sql = "SELECT  product.*,
+                        category.name as category_name, 
+                        author.name as author_name
+                FROM product
+                LEFT JOIN category
+                ON category.id = product.category_id
+                LEFT JOIN author
+                ON author.id = product.author_id
+                WHERE product.discount != 0
+                ORDER BY product.discount DESC LIMIT 1";
+        return DB::select($sql);
+    } 
+    
 
 
 
     public function get_all_condition($request){
         $category_id    = $request->category;
         $keyword        = $request->keyword;
-        list($prices_from, $prices_to) = explode(';', $request->prices, 2);
+
         $sort           = $request->sort;
         $status         = $request->status;
         $where_sql      = "";
 
-        if ($category_id > 0) $where_sql = " AND category_id = ".$category_id;
+        if ($category_id > 0) $where_sql = " WHERE category_id = ".$category_id;
         if ($keyword != "") $where_sql = " AND name like '".$category_id."'";
         if ($status == "new") {
             $where_sql = " ORDER BY created_at DESC";
@@ -88,20 +130,28 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
             $where_sql = " AND trending = 1";
         }
 
-        $sql = "SELECT * FROM product WHERE price BETWEEN ".$prices_from." AND ".$prices_to.$where_sql;
+        $sql = "SELECT * ,
+                        category.name as category_name, 
+                        author.name as author_name 
+                FROM product
+                LEFT JOIN category
+                ON category.id = product.category_id
+                LEFT JOIN author
+                ON author.id = product.author_id
+                WHERE 1 = 1".$where_sql;
         return DB::select($sql);
     }
     public function get_condition($request, $count){
         $category_id    = $request->category;
         $keyword        = $request->keyword;
         $page           = $request->page;
-        $pageSize       = 6;
-        list($prices_from, $prices_to) = explode(';', $request->prices, 2);
+        $pageSize       = 12;
+
         $sort           = $request->sort;
         $status         = $request->status;
         $where_sql      = "";
 
-        if ($category_id > 0) $where_sql = " AND category_id = ".$category_id;
+        if ($category_id > 0) $where_sql = " WHERE category_id = ".$category_id;
         if ($keyword != "") $where_sql = " AND name like '".$category_id."'";
         if ($status == "new") {
             $where_sql = " ORDER BY created_at DESC";
@@ -122,9 +172,15 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
         }
         $offset = $page == 1 ? "" : " OFFSET ".(($page-1) * $pageSize);
 
-        $sql = "SELECT  *
+        $sql = "SELECT  *,
+                        category.name as category_name, 
+                        author.name as author_name
                 FROM product 
-                WHERE price BETWEEN ".$prices_from." AND ".$prices_to.$where_sql.$sort_by."
+                LEFT JOIN category
+                ON category.id = product.category_id
+                LEFT JOIN author
+                ON author.id = product.author_id
+                WHERE  1 = 1".$where_sql.$sort_by."
                 LIMIT ".$pageSize.$offset;
         
         return DB::select($sql);
@@ -172,20 +228,6 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
                 LEFT JOIN category
                 ON category.id = product.category_id
                 ORDER BY product.created_at DESC
-                LIMIT ".$limit;
-        return DB::select($sql);
-    }
-    public function get_top_view($limit){
-        $sql = "SELECT  product.id,
-                        product.name,
-                        product.slug, 
-                        product.images,
-                        product.price,
-                        category.name as category_name
-                FROM product 
-                LEFT JOIN category
-                ON category.id = product.category_id
-                ORDER BY product.view DESC
                 LIMIT ".$limit;
         return DB::select($sql);
     }

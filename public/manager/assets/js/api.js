@@ -1,11 +1,10 @@
 const Api = {
-    Author: {},
-
-
-
+    Author: {}, 
     Category: {},
     Product: {},
     Image: {},
+    Discount: {},
+
     Warehouse: {},
     Order: {},
     Statistic: {},
@@ -94,8 +93,7 @@ const Api = {
         data: data,
         contentType: false,
         processData: false,
-    });
-    
+    }); 
     Api.Product.getOne = (id) => $.ajax({
         url: `/apip/product/get-one/${id}`,
         method: 'GET',
@@ -118,6 +116,30 @@ const Api = {
         data: {
             id: id ?? '',
         }
+    }); 
+})();
+
+
+//Discount
+(() => {
+    Api.Discount.GetAll = () => $.ajax({
+        url: `/apip/discount/get`,
+        method: 'GET',
+    });
+    Api.Discount.GetNotDiscount = () => $.ajax({
+        url: `/apip/discount/get-not`,
+        method: 'GET',
+    }); 
+    Api.Discount.Store = (data) => $.ajax({
+        url: `/apip/discount/store`,
+        method: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+    }); 
+    Api.Discount.Delete = (id) => $.ajax({
+        url: `/apip/discount/delete/${id}`,
+        method: 'GET',
     }); 
 })();
 

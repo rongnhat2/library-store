@@ -55,7 +55,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-							<strong class="tg-logo"><a href="index.html"><img src="images/logo.png" alt="company name here"></a></strong>
+							<strong class="tg-logo"><a href="/"><img src="{{ asset("customer/images/logo.png") }}" alt="company name here"></a></strong>
 							<div class="tg-wishlistandcart">
 
 								<div class="dropdown tg-themedropdown tg-minicartdropdown">
@@ -68,7 +68,7 @@
 							<div class="tg-searchbox">
 								<form class="tg-formtheme tg-formsearch">
 									<fieldset>
-										<input type="text" name="search" class="typeahead form-control" placeholder="Tìm kiếm tên truyện">
+										<input type="text" name="search" class="typeahead form-control search-input-wrapper" placeholder="Tìm kiếm tên truyện">
 										<button type="submit"><i class="icon-magnifier"></i></button>
 									</fieldset> 
 								</form>
@@ -94,37 +94,7 @@
 									<ul>
 										<li class="menu-item-has-children">
 											<a href="javascript:void(0);">Danh mục</a> 
-											<ul class="sub-menu">
-												<li class="active">
-													<a href="#artandphotography" aria-controls="artandphotography">Art &amp; Photography</a>
-												</li>
-												<li>
-													<a href="#biography" aria-controls="biography">Biography</a>
-												</li>
-												<li>
-													<a href="#childrensbook" aria-controls="childrensbook">Children’s Book</a>
-												</li>
-												<li>
-													<a href="#craftandhobbies" aria-controls="craftandhobbies">Craft &amp; Hobbies</a>
-												</li>
-												<li>
-													<a href="#crimethriller" aria-controls="crimethriller">Crime &amp; Thriller</a>
-												</li>
-												<li>
-													<a href="#fantasyhorror" aria-controls="fantasyhorror">Fantasy &amp; Horror</a>
-												</li>
-												<li>
-													<a href="#fiction" aria-controls="fiction">Fiction</a>
-												</li>
-												<li>
-													<a href="#fooddrink" aria-controls="fooddrink">Food &amp; Drink</a>
-												</li>
-												<li>
-													<a href="#graphicanimemanga" aria-controls="graphicanimemanga">Graphic, Anime &amp; Manga</a>
-												</li>
-												<li>
-													<a href="#sciencefiction" aria-controls="sciencefiction">Science Fiction</a>
-												</li>
+											<ul class="sub-menu category-list"> 
 											</ul>  
 										</li>
 										<li>
@@ -197,28 +167,22 @@
 						<div class="tg-threecolumns">
 							<div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
 								<div class="tg-footercol">
-									<strong class="tg-logo"><a href="javascript:void(0);"><img src="images/flogo.png" alt="image description"></a></strong>
+									<strong class="tg-logo"><a href="javascript:void(0);"><img src="{{ asset("customer/images/flogo.png") }}" alt="image description"></a></strong>
 									<ul class="tg-contactinfo">
 										<li>
 											<i class="icon-apartment"></i>
-											<address>Suit # 07, Rose world Building, Street # 02, AT246T Manchester</address>
+											<address>Đức Thắng, Bắc Từ Liêm, Hà Nội</address>
 										</li>
 										<li>
 											<i class="icon-phone-handset"></i>
 											<span>
-												<em>0800 12345 - 678 - 89</em>
-												<em>+4 1234 - 4567 - 67</em>
+												<em>0396947730</em>
 											</span>
-										</li>
-										<li>
-											<i class="icon-clock"></i>
-											<span>Serving 7 Days A Week From 9am - 5pm</span>
-										</li>
+										</li> 
 										<li>
 											<i class="icon-envelope"></i>
 											<span>
-												<em><a href="mailto:support@domain.com">support@domain.com</a></em>
-												<em><a href="mailto:info@domain.com">info@domain.com</a></em>
+												<em><a href="mailto: tramy5508@gmail.com"> tramy5508@gmail.com</a></em>
 											</span>
 										</li>
 									</ul>
@@ -236,15 +200,8 @@
 									<div class="tg-widgettitle">
 										<h3>Danh mục</h3>
 									</div>
-									<div class="tg-widgetcontent"> 
-										<li><a href="javascript:void(0);">Terms of Use</a></li>
-										<li><a href="javascript:void(0);">Terms of Sale</a></li>
-										<li><a href="javascript:void(0);">Returns</a></li>
-										<li><a href="javascript:void(0);">Privacy</a></li>
-										<li><a href="javascript:void(0);">Cookies</a></li>
-										<li><a href="javascript:void(0);">Contact Us</a></li>
-										<li><a href="javascript:void(0);">Our Affiliates</a></li>
-										<li><a href="javascript:void(0);">Vision &amp; Aim</a></li> 
+									<div class="tg-widgetcontent category-list"> 
+
 									</div>
 								</div>
 							</div>
@@ -281,6 +238,7 @@
 	<!--************************************
 			Wrapper End
 	*************************************-->
+    <script src="https://kit.fontawesome.com/d8162761f2.js"></script>
 	<script src="{{ asset('customer/js/vendor/jquery-library.js') }}"></script>
 	<script src="{{ asset('customer/js/vendor/bootstrap.min.js') }}"></script>
 	<script src="https://maps.google.com/maps/api/js?key=AIzaSyCR-KEWAVCn52mSdeVeTqZjtqbmVJyfSus&language=en"></script>

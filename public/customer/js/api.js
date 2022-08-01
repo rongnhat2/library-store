@@ -34,6 +34,19 @@ const Api = {
 
 //Product
 (() => {
+    Api.Product.GetAll = (filter) => $.ajax({
+        url: `/customer/apip/product/get-all`,
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            keyword: filter.keyword ?? '',
+            category: filter.category ?? '',
+            page: filter.page ?? '',
+            pageSize: filter.pageSize ?? '', 
+            sort: filter.sort ?? '',
+            status: filter.status ?? '',
+        }
+    });
     Api.Product.GetNew = () => $.ajax({
         url: `/customer/apip/product/get-new`,
         method: 'GET',
@@ -46,6 +59,18 @@ const Api = {
         url: `/customer/apip/product/get-author`,
         method: 'GET',
     }); 
+    Api.Product.getOne = (id) => $.ajax({
+        url: `/customer/apip/product/get-one/${id}`,
+        method: 'GET',
+    });
+    Api.Product.TopView = () => $.ajax({
+        url: `/customer/apip/product/get-top-view`,
+        method: 'GET',
+    });
+    Api.Product.BestDiscount = () => $.ajax({
+        url: `/customer/apip/product/get-best-discount`,
+        method: 'GET',
+    });
 })();
 
  

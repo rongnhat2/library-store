@@ -94,6 +94,25 @@ const Template = {
 			return `<div class="wrapper d-flex justify-center"><img src="/manager/images_global/funny.gif" alt=""></div>`
 		}
 	},
+	Discount: {
+		Create(){
+			return `<div class="error-log"></div>
+					<input type="hidden" class="form-control data-id" required="">
+					<div class="form-group">
+                        <label >Sản phẩm </label>
+                        <select name="" class="form-control product-list data-product"></select> 
+                    </div>
+					<div class="form-group">
+                        <label >Mức giảm giá </label>
+                        <input type="text" class="form-control data-discount number-type" placeholder="nhập số % giảm, ví dụ 20">
+                    </div> `
+		}, 
+		Delete(){
+			return `<div class="wrapper d-flex justify-center"><img src="/manager/images_global/funny.gif" alt=""></div>`
+		}
+	},
+
+
 	Warehouse: {
 		Create(){
 			return `<div class="row warehouse-modal">

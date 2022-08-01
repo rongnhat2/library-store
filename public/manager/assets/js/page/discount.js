@@ -1,29 +1,15 @@
 const View = {
-    Category: [],
-    Author: [],
+    Product: [], 
     table: {
-        __generateDTRow(data){
-            var metadata = JSON.parse(data.metadata);
-            console.log(metadata);
-            var data_text = `<div class="">
-                        <p class="badge badge-pill badge-blue m-r-10">Số trang: ${metadata.data.length != 0  ? metadata.data[0].count : null} Trang</p>
-                        <p class="badge badge-pill badge-green m-r-10">Kích thước: ${metadata.data.length != 0  ? IndexView.Config.formatPrices(metadata.data[0].size) : null}</p>
-                        <p class="badge badge-pill badge-red m-r-10">Ngôn ngữ: ${metadata.data.length != 0  ? metadata.data[0].language : null}</p>
-                        <p class="badge badge-pill badge-red m-r-10">Ngày viết: ${metadata.data.length != 0  ? metadata.data[0].data_date : null}</p>
-                    </div>`
+        __generateDTRow(data){ 
 
             return [
                 `<div class="id-order">${data.id}</div>`,
-                data.name,
-                data.category_name,
-                data.author_name,
+                data.name, 
+                `<img src="/${data.image}" alt="" style="width: 100px">`, 
                 IndexView.Config.formatPrices(data.prices) + " đ",
-                `<img src="/${data.image}" alt="" style="width: 100px">`,
-                data_text,
-                `<label class="switch" data-id="${data.id}" data-status="${data.status == '1' ? '0' : '1'}" atr="Status"> <span class="slider round ${data.trending == '1' ? 'active' : ''}"></span> </label>`,
-                `<a class="view-data " style="cursor: pointer" target="_blank" href="/product/${data.id}-${data.slug}"><i class="anticon anticon-eye"></i></a>
-                <div class="view-data modal-control" style="cursor: pointer" atr="View" data-id="${data.id}"><i class="anticon anticon-edit"></i></div>
-                <div class="view-data modal-control" style="cursor: pointer" atr="Delete" data-id="${data.id}"><i class="anticon anticon-delete"></i></div>`
+                IndexView.Config.formatPrices(data.discount) + " %",
+                ` <div class="view-data modal-control" style="cursor: pointer" atr="Delete" data-id="${data.id}"><i class="anticon anticon-delete"></i></div>`
             ]
         },
         init(){
@@ -39,38 +25,21 @@ const View = {
                         name: 'name',
                         orderable: true,
                         width: '10%',
-                    },
+                    }, 
                     {
-                        title: 'Danh mục',
+                        title: 'Hình ảnh',
                         name: 'name',
                         orderable: true, 
-                    },
-                    {
-                        title: 'Tác giả',
-                        name: 'name',
-                        orderable: true, 
-                    },
+                    }, 
                     {
                         title: 'Đơn giá',
                         name: 'name',
                         orderable: true, 
                     },
                     {
-                        title: 'Hình ảnh',
+                        title: 'Giảm giá',
                         name: 'name',
                         orderable: true, 
-                    },
-                    {
-                        title: 'Phân loại',
-                        name: 'icon',
-                        orderable: true,
-                        width: '20%',
-                    },
-                    {
-                        title: 'Trending',
-                        name: 'icon',
-                        orderable: true,
-                        width: '10%',
                     },
                     {
                         title: 'Hành động',
@@ -81,48 +50,19 @@ const View = {
                 ];
             IndexView.table.init("#data-table", row_table);
         }
-    },
-    Metadata: {
-        getVal(resource){
-            var data_return = JSON.parse(`{ "data": [] }`); 
-            var father          = $( `${resource}` );
-            var data_count      = father.find(".data-count").val() == "" ? null : father.find(".data-count").val();
-            var data_size       = father.find(".data-size").val() == "" ? null : father.find(".data-size").val();
-            var data_date       = father.find(".data-date").val() == "" ? null : father.find(".data-date").val(); 
-            var data_language   = father.find(".data-language").val() == "" ? null : father.find(".data-language").val();   
-            data_return.data
-                .push(
-                    JSON.parse(`{ "count": "${data_count ?? null}", "size": "${data_size ?? null}", "data_date": "${data_date ?? null}", "language": "${data_language ?? null}" }`)
-                );
-            return JSON.stringify(data_return);
-        },
-        setVal(data, resource){
-            var metadata = JSON.parse(data);
-
-            $(resource).find(".data-count").val(metadata.data.length != 0 ? metadata.data[0].count : "")
-            $(resource).find(".data-size").val(metadata.data.length != 0 ? metadata.data[0].size : "")
-            $(resource).find(".data-date").val(metadata.data.length != 0 ? metadata.data[0].data_date : "")
-            $(resource).find(".data-language").val(metadata.data.length != 0 ? metadata.data[0].language : "")
-        },  
-    },
+    }, 
     SideModal: {
         Create: {
             resource: '#side-modal-create',
             setDefaul(){ this.init();  },
             setVal(data){ 
                 var resource = this.resource;
-                $(resource).find(".category-list option").remove()
-                $(resource).find(".author-list option").remove()
-                View.Category.map(v => {
+                $(resource).find(".product-list option").remove() 
+                View.Product.map(v => {
                     $(resource)
-                        .find(".category-list")
+                        .find(".product-list")
                         .append(`<option value="${v.id}">${v.name}</option>`)
-                })
-                View.Author.map(v => {
-                    $(resource)
-                        .find(".author-list")
-                        .append(`<option value="${v.id}">${v.name}</option>`)
-                })
+                }) 
                 
             },
             getVal(){
@@ -131,30 +71,15 @@ const View = {
                 var required_data = [];
                 var onPushData = true;
  
-                var data_name           = $(`${resource}`).find('.data-name').val();   
-                var data_category       = $(`${resource}`).find('.data-category').val(); 
-                var data_author         = $(`${resource}`).find('.data-author').val(); 
-                var data_prices         = $(`${resource}`).find('.data-prices').val(); 
-                var data_description    = $(`${resource}`).find('.data-description').val();
-                var data_detail         = $(`${resource}`).find('.data-detail').val();
-                var data_image          = $(`${resource}`).find(".data-image")[0].files;  
-                var data_meta           = View.Metadata.getVal(resource);
+                var data_product           = $(`${resource}`).find('.data-product').val();   
+                var data_discount       = $(`${resource}`).find('.data-discount').val();  
  
-                if (data_name == '') { required_data.push('Hãy nhập tên.'); onPushData = false } 
-                if (data_prices == '') { required_data.push('Hãy nhập đơn giá.'); onPushData = false } 
-                if (data_description == '') { required_data.push('Nhập mô tả ngắn.'); onPushData = false } 
-                if (data_detail == '') { required_data.push('Nhập mô tả đầy đủ.'); onPushData = false } 
-                if (data_image.length <= 0) { required_data.push('Hãy chọn ảnh.'); onPushData = false } 
+                if (data_product == '') { required_data.push('Hãy nhập tên.'); onPushData = false } 
+                if (data_discount == '') { required_data.push('Hãy nhập giảm giá.'); onPushData = false }  
 
                 if (onPushData) { 
-                    fd.append('data_name', data_name);   
-                    fd.append('data_category', data_category);  
-                    fd.append('data_author', data_author);  
-                    fd.append('data_prices', data_prices);  
-                    fd.append('data_description', data_description); 
-                    fd.append('data_detail', data_detail); 
-                    fd.append('data_image', data_image[0]);
-                    fd.append('data_meta', data_meta);   
+                    fd.append('data_product', data_product);   
+                    fd.append('data_discount', data_discount);   
 
                     return fd;
                 }else{
@@ -176,7 +101,7 @@ const View = {
             },
             init(){
                 var modalTitleHTML  = `Tạo mới`;
-                var modalBodyHTML   = Template.Product.Create();
+                var modalBodyHTML   = Template.Discount.Create();
                 var modalFooterHTML = ['Đóng', 'Tạo mới'];
 
                 IndexView.SideModal.launch(this.resource, modalTitleHTML, modalBodyHTML, modalFooterHTML);
@@ -265,7 +190,7 @@ const View = {
             },
             init(){
                 var modalTitleHTML  = `Cập nhật`;
-                var modalBodyHTML   = Template.Product.Create();
+                var modalBodyHTML   = Template.Discount.Create();
                 var modalFooterHTML = ['Đóng', 'Cập nhật'];
 
                 IndexView.SideModal.launch(this.resource, modalTitleHTML, modalBodyHTML, modalFooterHTML);
@@ -289,7 +214,7 @@ const View = {
             },
             init() {
                 var modalTitleHTML = `Xóa`;
-                var modalBodyHTML  = Template.Product.Delete();
+                var modalBodyHTML  = Template.Discount.Delete();
                 var modalFooterHTML = ['Đóng', 'Xóa'];
                 IndexView.SideModal.launch(this.resource, modalTitleHTML, modalBodyHTML, modalFooterHTML);
             }
@@ -317,7 +242,7 @@ const View = {
         View.SideModal.Create.onPush("Push", (fd) => {
             IndexView.helper.showToastProcessing('Processing', 'Đang tạo!');
             IndexView.SideModal.onHide(resource)
-            Api.Product.Store(fd)
+            Api.Discount.Store(fd)
                 .done(res => {
                     IndexView.helper.showToastSuccess('Success', 'Tạo thành công !');
                     getData();
@@ -326,36 +251,14 @@ const View = {
                 .always(() => { });
             View.SideModal.Create.setDefaul();
         })
-    }) 
-    IndexView.SideModal.onControl("View", (id) => {
-        var resource = View.SideModal.Update.resource;
+    })  
 
-        Api.Product.getOne(id)
-            .done(res => { 
-                View.SideModal.Update.setVal(res.data); 
-                IndexView.SideModal.onShow(resource);
-                View.SideModal.Update.onPush("Push", (fd) => {
-                    IndexView.helper.showToastProcessing('Processing', 'Đang cập nhật!');
-                    Api.Product.Update(fd)
-                        .done(res => {
-                            IndexView.helper.showToastSuccess('Success', 'Cập nhật thành công !');
-                            getData();
-                        })
-                        .fail(err => { IndexView.helper.showToastError('Error', 'Có lỗi sảy ra'); })
-                        .always(() => { });
-                        IndexView.SideModal.onHide(resource)
-                        View.SideModal.Update.setDefaul();
-                })
-            })
-            .fail(err => { IndexView.helper.showToastError('Error', 'Có lỗi sảy ra'); })
-            .always(() => { }); 
-    }) 
     IndexView.SideModal.onControl("Delete", (id) => {
         var resource = View.SideModal.Delete.resource;
         IndexView.SideModal.onShow(resource);
         View.SideModal.Delete.onPush("Push", () => {
             IndexView.helper.showToastProcessing('Processing', 'Đang xóa!');
-            Api.Product.Delete(id)
+            Api.Discount.Delete(id)
                 .done(res => {
                     IndexView.helper.showToastSuccess('Success', 'Xóa thành công !');
                     getData();
@@ -365,27 +268,14 @@ const View = {
                 IndexView.SideModal.onHide(resource)
                 IndexView.SideModal.Delete.setDefaul();
         })
-    })
-    IndexView.table.onSwitch(debounce((item) => {
-        Api.Product.Trending(item.attr('data-id'))
-            .done(res => {
-                getData()
-                item.find('.slider').toggleClass('active');
-            })
-            .fail(err => {
-                console.log(err);
-            })
-            .always(() => {
-            });
-    }, 500));
-
+    }) 
 
     function init(){
         getData();
     }
 
     function getData(){
-        Api.Product.GetAll()
+        Api.Discount.GetAll()
             .done(res => {
                 IndexView.table.clearRows();
                 Object.values(res.data).map(v => {
@@ -396,18 +286,12 @@ const View = {
             })
             .fail(err => { IndexView.helper.showToastError('Error', 'Có lỗi sảy ra'); })
             .always(() => { });
-        Api.Category.GetAll()
+        Api.Discount.GetNotDiscount()
             .done(res => {
-                View.Category = res.data;
+                View.Product = res.data;
             })
             .fail(err => { IndexView.helper.showToastError('Error', 'Có lỗi sảy ra'); })
-            .always(() => { });
-        Api.Author.GetAll()
-            .done(res => {
-                View.Author = res.data;
-            })
-            .fail(err => { IndexView.helper.showToastError('Error', 'Có lỗi sảy ra'); })
-            .always(() => { });
+            .always(() => { }); 
     }
     function debounce(f, timeout) {
         let isLock = false;

@@ -1,4 +1,89 @@
 const View = {
+	Cart: {
+		item: [],
+		init(){ 
+	        var card        = localStorage.getItem("library-cart");  
+	        var json_cart = JSON.parse(card);  
+	        json_cart.cart.map(v => { 
+	            View.Cart.item.push(v.id);
+	        })
+		}
+	},
+	Product: {
+		TopView: {
+			render(data){
+				data.map(v => {
+					$(".tg-newreleasebooks")
+						.append(`<div class="col-xs-4 col-sm-4 col-md-6 col-lg-4">
+									<div class="tg-postbook">
+										<figure class="tg-featureimg">
+											<div class="tg-bookimg">
+												<div class="tg-frontcover"><img src="/${v.image}" alt="${v.slug}"></div>
+												<div class="tg-backcover"><img src="/${v.image}" alt="${v.slug}"></div>
+											</div> 
+										</figure>
+										<div class="tg-postbookcontent">
+											<ul class="tg-bookscategories">
+												<li><a href="/category?category=${v.category_id}">${v.category_name}</a></li> 
+											</ul> 
+											<div class="tg-booktitle">
+												<h3><a href="/product/${v.id}-${v.slug}">${v.name}</a></h3>
+											</div>
+											<span class="tg-bookwriter">By: <a href="javascript:void(0);">${v.author_name}</a></span> 
+											<span class="tg-bookprice">
+												<ins>${IndexView.Config.formatPrices(v.prices)} đ</ins> 
+											</span>
+											<a class="tg-btn tg-btnstyletwo action-add-to-card" atr="Add to card" href="javascript:void(0);" product-id="${v.id}">
+												${View.Cart.item.includes(v.id) 
+														? `<i class="fas fa-check"></i>` 
+														: `<i class="fa fa-shopping-basket"></i>
+															<em>Giỏ hàng</em>`
+												}  
+											</a>
+										</div>
+									</div>
+								</div>`)
+				})
+			}
+		},
+		BestDiscount: {
+			render(data){
+				var real_prices     = IndexView.Config.formatPrices(data.discount == 0 ? data.prices : data.prices - (data.prices*data.discount/100));
+
+				$(".tg-haslayout.product-best-discount")
+					.append(`<div class="container">
+								<div class="row">
+									<div class="tg-featureditm">
+										<div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 hidden-sm hidden-xs">
+											<figure><img src="/${data.image}" alt="image description" style="width: 300px"></figure>
+										</div>
+										<div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+											<div class="tg-featureditmcontent"> 
+												<div class="tg-booktitle">
+													<h3><a href="/product/${data.id}-${data.slug}">${data.name}</a></h3>
+												</div>
+												<span class="tg-bookwriter">Tác giả: <a href="javascript:void(0);">${data.author_name}</a></span>
+												
+												<div class="tg-priceandbtn">
+													<span class="tg-bookprice">
+														${data.discount == 0 
+										                ?  `<ins>${IndexView.Config.formatPrices(data.prices)+"đ"}</ins>`
+										                :   `<ins>${IndexView.Config.formatPrices(real_prices)} đ </ins>
+										                    <del>${IndexView.Config.formatPrices(data.prices)+"đ"}</del>`}
+													</span>
+													<a class="tg-btn tg-btnstyletwo tg-active" href="/product/${data.id}-${data.slug}">
+														<i class="fa fa-shopping-basket"></i>
+														<em>Xem ngay</em>
+													</a>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>`)
+			}
+		}
+	},
 	CarouselTrending:{
 		render(data){
 			data.map(v => {
@@ -8,13 +93,13 @@ const View = {
 									<div class="row">
 										<div class="col-xs-12 col-sm-12 col-md-10 col-md-push-1 col-lg-8 col-lg-push-2">
 											<div class="tg-slidercontent">
-												<figure class="tg-authorimg"><a href="javascript:void(0);"><img src="/${v.image}" alt="image description"></a></figure>
+												<figure class="tg-authorimg"><a href="/product/${v.id}-${v.slug}"><img src="/${v.image}" alt="image description"></a></figure>
 												<h1>${v.name}</h1> 
 												<div class="tg-description">
 													<p>${v.description}</p>
 												</div>
 												<div class="tg-btns">
-													<a class="tg-btn" href="javascript:void(0);">Xem ngay</a> 
+													<a class="tg-btn" href="/product/${v.id}-${v.slug}">Xem ngay</a> 
 												</div>
 											</div>
 										</div>
@@ -56,18 +141,21 @@ const View = {
 									</figure>
 									<div class="tg-postbookcontent">
 										<ul class="tg-bookscategories">
-											<li><a href="javascript:void(0);">${v.category_name}</a></li> 
+											<li><a href="/category?category=${v.category_id}">${v.category_name}</a></li> 
 										</ul> 
 										<div class="tg-booktitle">
-											<h3><a href="javascript:void(0);">${v.name}</a></h3>
+											<h3><a href="/product/${v.id}-${v.slug}">${v.name}</a></h3>
 										</div>
 										<span class="tg-bookwriter">By: <a href="javascript:void(0);">${v.author_name}</a></span> 
 										<span class="tg-bookprice">
 											<ins>${IndexView.Config.formatPrices(v.prices)} đ</ins> 
 										</span>
-										<a class="tg-btn tg-btnstyletwo" href="javascript:void(0);">
-											<i class="fa fa-shopping-basket"></i>
-											<em>Giỏ hàng</em>
+										<a class="tg-btn tg-btnstyletwo action-add-to-card" atr="Add to card" href="javascript:void(0);" product-id="${v.id}">
+											${View.Cart.item.includes(v.id) 
+														? `<i class="fas fa-check"></i>` 
+														: `<i class="fa fa-shopping-basket"></i>
+															<em>Giỏ hàng</em>`
+												} 
 										</a>
 									</div>
 								</div>
@@ -135,7 +223,7 @@ const View = {
 		}
 	},
 	init(){
-
+		View.Cart.init();
 	}
 };
 (() => {
@@ -144,7 +232,8 @@ const View = {
     	getNew();
     	getTrending();
     	getAuthor();
-    	// getTopView();
+    	getTopView();
+    	getBestDiscount();
 
     	// getOrder( )
     }
@@ -186,6 +275,23 @@ const View = {
             .fail(err => {   })
             .always(() => { });
     } 
+    function getTopView(){
+        Api.Product.TopView()
+            .done(res => { 
+            	View.Product.TopView.render(res.data)
+            })
+            .fail(err => {  })
+            .always(() => { });
+    }
+    function getBestDiscount(){
+        Api.Product.BestDiscount()
+            .done(res => {  
+            	if (res.data.length != 0)
+            		View.Product.BestDiscount.render(res.data[0])
+            })
+            .fail(err => {  })
+            .always(() => { });
+    }
 
 
 
@@ -193,14 +299,6 @@ const View = {
         Api.Product.NewArrivals()
             .done(res => { 
             	View.Product.New.render(res.data)
-            })
-            .fail(err => {  })
-            .always(() => { });
-    }
-    function getTopView(){
-        Api.Product.TopView()
-            .done(res => { 
-            	View.Product.TopView.render(res.data)
             })
             .fail(err => {  })
             .always(() => { });
