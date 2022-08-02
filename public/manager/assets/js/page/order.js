@@ -27,12 +27,12 @@ const View = {
             ];
             return [
                 `<div class="id-order">${data.id}</div>`,
-                `<p><i class="far fa-user m-r-10"></i>${data.username}</p>
-                <p><i class="far fa-envelope m-r-10"></i>${data.email}</p>
-                <p><i class="fas fa-phone-alt m-r-10"></i>${data.telephone}</p>`,
+                `<p><i class="far fa-user m-r-10"></i>${data.name}</p>
+                <p><i class="far fa-envelope m-r-10"></i>${data.address}</p>
+                <p><i class="fas fa-phone-alt m-r-10"></i>${data.phone}</p>`,
                 `<div class="d-flex align-items-center">
                     <div class="badge badge-primary badge-dot m-r-10"></div>
-                    <div>Tạm tính: ${ViewIndex.table.formatNumber(data.subtotal)} đ</div>
+                    <div>Tạm tính: ${IndexView.table.formatNumber(data.sub_total)} đ</div>
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="badge badge-secondary badge-dot m-r-10"></div>
@@ -40,7 +40,7 @@ const View = {
                 </div>
                 <div class="d-flex align-items-center">
                     <div class="badge badge-success badge-dot m-r-10"></div>
-                    <div>Thực tính: ${ViewIndex.table.formatNumber(data.total)} đ</div>
+                    <div>Thực tính: ${IndexView.table.formatNumber(data.total)} đ</div>
                 </div>`,
                 data.created_at,
                 `<div class="badge ${order_status[data.order_status]}">${order_status_title[data.order_status]}</div>
@@ -83,7 +83,7 @@ const View = {
                         width: '10%',
                     },
                 ];
-            ViewIndex.table.init("#data-table", row_table);
+            IndexView.table.init("#data-table", row_table);
         }
     },
     TabData: {
@@ -142,7 +142,7 @@ const View = {
             resource: '#update-modal',
             setDefaul(){ this.init();  },
             textDefaul(){
-                ViewIndex.textCount.defaul(this.resource +' .data-name', this.resource + ' .data-name-return', 254)
+                IndexView.textCount.defaul(this.resource +' .data-name', this.resource + ' .data-name-return', 254)
             },
             createCategory(data){ 
                 var resource = this.resource;
@@ -153,10 +153,10 @@ const View = {
                 })
             },
             setVal(data){ 
-                $(".customer-name").html(data.data_order[0].username)
+                $(".customer-name").html(data.data_order[0].name)
                 $(".customer-address").html(data.data_order[0].address)
                 $(".customer-email").html(data.data_order[0].email)
-                $(".customer-telephone").html(data.data_order[0].telephone)
+                $(".customer-telephone").html(data.data_order[0].phone)
                 var order_status = [
                     "badge-warning badge-pill",
                     "badge-success badge-pill",
@@ -172,7 +172,7 @@ const View = {
                                     <td>${v.product_id}</td>
                                     <td>${v.name}</td>
                                     <td>${v.quantity}</td>
-                                    <td>${v.price}</td>
+                                    <td>${v.prices}</td>
                                     <td>${v.discount} %</td>
                                     <td>${v.total_price}</td>
                                     <td>${v.warehouse_quatity ?? 0}</td>
@@ -254,33 +254,33 @@ const View = {
                     Api.Order.Update(fd)
                         .done(res => {
                             if (res.message == 500) {
-                                ViewIndex.helper.showToastError('Success', 'Cập nhật thất bại !');
+                                IndexView.helper.showToastError('Success', 'Cập nhật thất bại !');
                             }else{
-                                ViewIndex.helper.showToastSuccess('Success', 'Cập nhật thành công !');
+                                IndexView.helper.showToastSuccess('Success', 'Cập nhật thành công !');
                             }
                             getData(localStorage.getItem("item_tab"))
                         })
-                        .fail(err => { ViewIndex.helper.showToastError('Error', 'Có lỗi sảy ra'); })
+                        .fail(err => { IndexView.helper.showToastError('Error', 'Có lỗi sảy ra'); })
                         .always(() => { });
                     View.modals.onHide(resource)
                     View.modals.Update.setDefaul();
                 })
             })
-            .fail(err => { ViewIndex.helper.showToastError('Error', 'Có lỗi sảy ra'); })
+            .fail(err => { IndexView.helper.showToastError('Error', 'Có lỗi sảy ra'); })
             .always(() => { }); 
     })
 
     function getData(id){
         Api.Order.GetAll(id)
             .done(res => {
-                ViewIndex.table.clearRows();
+                IndexView.table.clearRows();
                 Object.values(res.data).map(v => {
-                    ViewIndex.table.insertRow(View.table.__generateDTRow(v));
-                    ViewIndex.table.render();
+                    IndexView.table.insertRow(View.table.__generateDTRow(v));
+                    IndexView.table.render();
                 })
-                ViewIndex.table.render();
+                IndexView.table.render();
             })
-            .fail(err => { ViewIndex.helper.showToastError('Error', 'Có lỗi sảy ra'); })
+            .fail(err => { IndexView.helper.showToastError('Error', 'Có lỗi sảy ra'); })
             .always(() => { });
     }
 

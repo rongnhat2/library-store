@@ -63,9 +63,10 @@ class OrderController extends Controller
     public function checkout(Request $request){  
 
         $is_user = static::check_token($request); 
+        list($user_id, $token) = static::unpack_token($request); 
         $metadata = json_decode($request->metadata); 
 
-        $customer_id         = $request->data_id ? preg_replace('/(<([^>]+)>)/', '', $request->data_id) : "";
+        $customer_id         = $user_id;
         $name       = preg_replace('/(<([^>]+)>)/', '', $request->data_name);
         $email      = preg_replace('/(<([^>]+)>)/', '', $request->data_email);
         $address    = preg_replace('/(<([^>]+)>)/', '', $request->data_address);
@@ -75,67 +76,44 @@ class OrderController extends Controller
         $discount   = 0;
         $total      = 0; 
         foreach ($metadata->cart as $key => $value) { 
-            $sub_total  += $value->meta->data[0]->prices;
-            $discount   += $sub_total / 100 * $value->meta->data[0]->discount;
-            $total      += $value->meta->data[0]->prices - ( $value->meta->data[0]->prices / 100 * $value->meta->data[0]->discount );
+            $data = $this->product->get_one($value->id);
+
+            $sub_total  += $data[0]->prices;
+            $discount   += $data[0]->prices / 100 * $data[0]->discount;
+            $total      += ($data[0]->prices - ( $data[0]->prices / 100 * $data[0]->discount )) * $value->size;
         }
         $route_redirect = "/profile?tab=Order";
         try {
-            DB::beginTransaction();
-            $order_key_id = mt_rand(1, 9999999);
+            DB::beginTransaction(); 
             $data_order = [
-                "customer_id"   => $customer_id ? $customer_id : null,
-                "order_key_id"  => $order_key_id,
+                "customer_id"   => $customer_id, 
                 "sub_total"     => $sub_total,
                 "discount"      => $discount,
                 "total"         => $total,
-                "name"          => $name,
-                "email"         => $email,
-                "phone"         => $phone,
-                "zipcode"       => $zipcode,
-                "address"       => $address,
-                "description"   => $description,
+                "name"          => $name, 
+                "phone"         => $phone, 
+                "address"       => $address, 
                 "order_value"   => Carbon::now()->toDateTimeString() . "|Đặt hàng thành công",
                 "order_status"  => 0,
             ]; 
             $order_item = $this->order->create($data_order);
+
             foreach ($metadata->cart as $key => $value) {
                 $product = $this->product->get_one($value->id);
                 $item_order = [
                     "order_id"      => $order_item->id,
-                    "product_id"    => $value->id,
-                    "size"          => $value->meta->data[0]->size,
-                    "quantity"      => $value->qty,
-                    "prices"        => $value->meta->data[0]->prices,
-                    "discount"      => $value->meta->data[0]->discount,
-                    "total_price"   => ($value->meta->data[0]->prices - ( $value->meta->data[0]->prices / 100 * $value->meta->data[0]->discount ) ) * $value->qty,
+                    "product_id"    => $value->id, 
+                    "quantity"      => $value->size,
+                    "prices"        => $data[0]->prices,
+                    "discount"      => $data[0]->discount,
+                    "total_price"   => ($data[0]->prices - ( $data[0]->prices / 100 * $data[0]->discount ) ) * $value->size,
                 ];
                 $this->order_detail->create($item_order);
             }
-
-            $data_customer = null;
-            if ($customer_id) {
-                $data_customer = $this->customer->find_with_id($customer_id);
-            } 
-            $data = [
-                'email'             => $email,
-                'date_created'      => Carbon::now()->toDateTimeString(),
-                'total'             => $total,
-                'order_id'         => "SBTC_".$order_item->id."_".$order_key_id,
-                'description'      => $description,
-                'customer_login'   => $customer_id ? $customer_id : null,
-                'metadata'          => $metadata,
-                'customer_data'    => $data_customer,
-                'order_data_name'    => $name,
-                'order_data_phone'    => $phone,
-                'order_data_email'    => $email,
-                'order_data_zipcode'    => $zipcode,
-                'order_data_address'    => $address,
-                'order_data_description'    => $description,
-            ]; 
+ 
             DB::commit(); 
             if ($customer_id) { 
-                return $this->order->send_response("Lỗi đăng nhập", $route_redirect, 201); 
+                return $this->order->send_response("Đặt hàng thành công", $route_redirect, 201); 
             }
             return $this->order->send_response("Lỗi đăng nhập", $route_redirect, 201); 
         } catch (\Exception $exception) {

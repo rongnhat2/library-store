@@ -204,13 +204,7 @@
                                         </div>
                                         <div class="user-data">
                                             <i class="fas fa-phone mr-2"></i><span class="data-phone"> </span>
-                                        </div>
-                                        <div class="user-data">
-                                            <i class="fas fa-credit-card mr-2"></i><span class="data-payment"> </span>
-                                        </div>
-                                        <div class="user-data">
-                                            <i class="fas fa-check-circle mr-2"></i><span class="data-payment-status"> </span>
-                                        </div>
+                                        </div> 
                                     </div>
                                     <div class="col-xs-8 col-sm-8 col-md-8 col-lg-8 col-xl-8 procedure-border procedure-timeline">
                                     </div>
@@ -235,6 +229,6 @@
 
 
 @section('js')
-<script type="text/javascript" src="{{ asset('customer/assets/js/page/profile.js') }}"></script>
+<script type="text/javascript" src="{{ asset('customer/js/page/profile.js') }}"></script>
 @endsection()
         

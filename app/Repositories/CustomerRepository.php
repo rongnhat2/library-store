@@ -16,6 +16,10 @@ class CustomerRepository extends BaseRepository implements RepositoryInterface
         $this->model = $model;
     }
 
+    public function get_data(){ 
+        return DB::table('customer')->leftjoin("customer_detail", "customer.id", "=", "customer_detail.customer_id")->get(); 
+    } 
+
     public function getOne($id){
         return $this->model->where('id', '=', $id)->get();
     }

@@ -106,6 +106,9 @@ Route::middleware(['AuthAdmin:admin'])->group(function () {
         
         Route::get('/', 'Admin\DisplayController@statistic')->name('admin.statistic.index');
 
+        Route::prefix('customer')->group(function () {
+            Route::get('/', 'Admin\CustomerController@index')->name('admin.customer.index');
+        }); 
         Route::prefix('author')->group(function () {
             Route::get('/', 'Admin\AuthorController@index')->name('admin.author.index');
         }); 
@@ -132,6 +135,10 @@ Route::middleware(['AuthAdmin:admin'])->group(function () {
     Route::prefix('apip')->group(function () {
         Route::post('post-image', 'Admin\DisplayController@image')->name('admin.image.post');
 
+        Route::prefix('customer')->group(function () {
+            Route::get('get', 'Admin\CustomerController@get')->name('admin.customer.get');
+            
+        }); 
         Route::prefix('author')->group(function () {
             Route::get('get', 'Admin\AuthorController@get')->name('admin.author.get');
             Route::get('/get-one/{id}', 'Admin\AuthorController@get_one')->name('admin.author.get_one');
@@ -173,12 +180,12 @@ Route::middleware(['AuthAdmin:admin'])->group(function () {
         //     Route::post('/update', 'Admin\ProductController@update')->name('admin.warehouse.update');
         // });
 
-        // Route::prefix('order')->group(function () {
-        //     Route::get('get', 'Admin\OrderController@get')->name('admin.order.get');
-        //     Route::get('get-one', 'Admin\OrderController@get_one')->name('admin.order.get');
-        //     Route::post('/update', 'Admin\OrderController@update')->name('admin.order.update');
+        Route::prefix('order')->group(function () {
+            Route::get('get', 'Admin\OrderController@get')->name('admin.order.get');
+            Route::get('get-one', 'Admin\OrderController@get_one')->name('admin.order.get');
+            Route::post('/update', 'Admin\OrderController@update')->name('admin.order.update');
 
-        // });
+        });
 
         // Route::prefix('statistic')->group(function () {
         //     Route::get('get-total', 'Admin\OrderController@get_total')->name('admin.order.get_total');

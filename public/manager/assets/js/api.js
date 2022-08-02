@@ -4,6 +4,7 @@ const Api = {
     Product: {},
     Image: {},
     Discount: {},
+    Customer: {},
 
     Warehouse: {},
     Order: {},
@@ -19,6 +20,14 @@ const Api = {
     });
 })();
 
+
+//Customer
+(() => {
+    Api.Customer.GetAll = () => $.ajax({
+        url: `/apip/customer/get`,
+        method: 'GET',
+    });  
+})();
 
 //Author
 (() => {

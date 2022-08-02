@@ -100,15 +100,15 @@ const View = {
         Api.Order.Checkout(fd)
             .done(res => {
                 if (res.status == 200) {
-                    View.response.success(res.message)
-                    localStorage.removeItem("library-cart");
-                    localStorage.removeItem("library-cart-data");
-                    redirect_logined(res.data)
+                    // View.response.success(res.message)
+                    // localStorage.removeItem("library-cart");
+                    // localStorage.removeItem("library-cart-data");
+                    // redirect_logined(res.data)
                 }else if (res.status == 201) {
-                    View.response.success(res.message)
-                    localStorage.removeItem("library-cart"); 
-                    localStorage.removeItem("library-cart-data");
-                    redirect_logined("/")
+                    // View.response.success(res.message)
+                    // localStorage.removeItem("library-cart"); 
+                    // localStorage.removeItem("library-cart-data");
+                    // redirect_logined("/")
                 }else{
                     View.response.error(res.message)
                 }

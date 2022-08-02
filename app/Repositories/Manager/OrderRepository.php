@@ -101,7 +101,7 @@ class OrderRepository extends BaseRepository implements RepositoryInterface
     public function get_detail($id){
         $sql = "SELECT order_detail.*,
                         product.name,
-                        product.images 
+                        product.image
                     FROM order_detail 
                     LEFT JOIN product
                     ON product.id = order_detail.product_id 
@@ -120,6 +120,25 @@ class OrderRepository extends BaseRepository implements RepositoryInterface
         $sql = "UPDATE customer_detail
                     SET cart = null
                     WHERE customer_id = ".$customer_id;
+        return DB::select($sql);
+    }
+
+
+    
+    public function get_order($id){
+        $sql = " SELECT * 
+                FROM order_time
+                WHERE order_status = ".$id;
+        return DB::select($sql);
+    }
+    public function get_sub_order($id){
+        $sql = " SELECT order_detail.*, 
+                        product.name, 
+                        product.id as product_id 
+                FROM order_detail
+                LEFT JOIN product
+                ON product.id = order_detail.product_id
+                WHERE order_id = ".$id;
         return DB::select($sql);
     }
 }

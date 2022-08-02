@@ -9,8 +9,8 @@
                     <span class="title">Đơn hàng</span>
                 </a>
             </li> 
-            <li class="nav-item dropdown author-group">
-                <a class="dropdown-toggle author" href="{{ route('admin.author.index') }}">
+            <li class="nav-item dropdown customer-group">
+                <a class="dropdown-toggle customer" href="{{ route('admin.customer.index') }}">
                     <span class="icon-holder">
                         <i class="anticon anticon-user-add"></i>
                     </span>
