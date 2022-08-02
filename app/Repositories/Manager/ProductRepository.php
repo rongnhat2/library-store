@@ -128,9 +128,11 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
             $where_sql = " ORDER BY created_at DESC";
         }else if ($status == "hot") {
             $where_sql = " AND trending = 1";
+        }else if ($status == "discount") {
+            $where_sql = " AND discount != 0";
         }
 
-        $sql = "SELECT * ,
+        $sql = "SELECT product.* ,
                         category.name as category_name, 
                         author.name as author_name 
                 FROM product
@@ -157,8 +159,11 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
             $where_sql = " ORDER BY created_at DESC";
         }else if ($status == "hot") {
             $where_sql = " AND trending = 1";
+        }else if ($status == "discount") {
+            $where_sql = " AND discount != 0";
         }
         $sort_by = "";
+        
         if ($sort == 1) {
             $sort_by = " ORDER BY created_at DESC";
         }else if($sort == 2){
@@ -166,13 +171,13 @@ class ProductRepository extends BaseRepository implements RepositoryInterface
         }else if($sort == 3){
             $sort_by = " ORDER BY name DESC";
         }else if($sort == 4){
-            $sort_by = " ORDER BY price ASC";
+            $sort_by = " ORDER BY prices ASC";
         }else if($sort == 5){
-            $sort_by = " ORDER BY price DESC";
+            $sort_by = " ORDER BY prices DESC";
         }
         $offset = $page == 1 ? "" : " OFFSET ".(($page-1) * $pageSize);
 
-        $sql = "SELECT  *,
+        $sql = "SELECT  product.*,
                         category.name as category_name, 
                         author.name as author_name
                 FROM product 

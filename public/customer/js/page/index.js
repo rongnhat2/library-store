@@ -14,7 +14,7 @@ const View = {
 			render(data){
 				data.map(v => {
 					$(".tg-newreleasebooks")
-						.append(`<div class="col-xs-4 col-sm-4 col-md-6 col-lg-4">
+						.append(`<div class="col-xs-2 col-sm-2 col-md-6 col-lg-2">
 									<div class="tg-postbook">
 										<figure class="tg-featureimg">
 											<div class="tg-bookimg">

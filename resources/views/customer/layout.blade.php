@@ -59,19 +59,22 @@
 							<div class="tg-wishlistandcart">
 
 								<div class="dropdown tg-themedropdown tg-minicartdropdown">
-									<a href="javascript:void(0);" id="tg-minicart" class="tg-btnthemedropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-										<span class="tg-themebadge">3</span>
+									<a href="cart" id="tg-minicart" class="tg-btnthemedropdown"  >
+										<span class="tg-themebadge"></span>
 										<i class="icon-cart"></i> 
 									</a> 
 								</div>
 							</div>
 							<div class="tg-searchbox">
-								<form class="tg-formtheme tg-formsearch">
+								<div class="tg-formtheme tg-formsearch">
 									<fieldset>
 										<input type="text" name="search" class="typeahead form-control search-input-wrapper" placeholder="Tìm kiếm tên truyện">
+										<div class="suggest-list"> 
+                                            
+                                        </div>
 										<button type="submit"><i class="icon-magnifier"></i></button>
 									</fieldset> 
-								</form>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -98,15 +101,15 @@
 											</ul>  
 										</li>
 										<li>
-											<a href="javascript:void(0);">Trang chủ</a> 
+											<a href="/">Trang chủ</a> 
 										</li> 
 										<li>
-											<a href="javascript:void(0);">Tất cả sản phẩm</a> 
+											<a href="/category?category=0">Tất cả sản phẩm</a> 
 										</li> 
 										<li>
-											<a href="javascript:void(0);">Đang giảm giá</a> 
+											<a href="/category?status=discount">Đang giảm giá</a> 
 										</li> 
-										<li><a href="contactus.html">Liên hệ</a></li> 
+										<li><a href="#">Liên hệ</a></li> 
 									</ul>
 								</div>
 							</nav>
@@ -252,6 +255,7 @@
 	<script src="{{ asset('customer/js/gmap3.js') }}"></script>
 	<script src="{{ asset('customer/js/main.js') }}"></script>
 	<script src="{{ asset('customer/js/api.js') }}"></script>
+	<script src="{{ asset('customer/js/pagination.js') }}"></script>
 	<script src="{{ asset('customer/js/layout.js') }}"></script>
 	@yield('js')
 </body>

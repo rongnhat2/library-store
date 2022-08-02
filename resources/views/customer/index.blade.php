@@ -54,7 +54,7 @@
 									<div class="tg-status">
 										<div class="tg-statuscontent">
 											<span class="tg-statusicon"><i class="icon-heart"></i></span>
-											<h2>Số lượt thích<span>1,267,539</span></h2>
+											<h2>Số lượt xem<span>1,267,539</span></h2>
 										</div>
 									</div>
 								</div>
@@ -75,7 +75,7 @@
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 							<div class="tg-sectionhead">
 								<h2>Sách mới</h2>
-								<a class="tg-btn" href="javascript:void(0);">Xem tất cả</a>
+								<a class="tg-btn" href="/category?category=0&sort=1">Xem tất cả</a>
 							</div>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -105,15 +105,12 @@
 				<div class="container">
 					<div class="row">
 						<div class="tg-newrelease">
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<div class="tg-sectionhead">
 									<h2>Top Nhiều lượt xem nhất</h2>
-								</div> 
-								<div class="tg-btns">
-									<a class="tg-btn tg-active" href="javascript:void(0);">Xem tất cả</a> 
-								</div>
+								</div>  
 							</div>
-							<div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+							<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 								<div class="row">
 									<div class="tg-newreleasebooks">
 

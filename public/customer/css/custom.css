@@ -1,4 +1,18 @@
 @import "I-profile.css";
+.checkout-wrapp{
+    margin: 50px 0;
+}
+.button-payment{
+    width: 130px;
+    height: 40px;
+    background-color: #77b748;
+    color: #fff;
+    margin: 20px 10px 0 0;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 #tg-header,
 .tg-middlecontainer{ 
 	background-color: #fff;
@@ -84,7 +98,52 @@
 .js-success li{
    color: #00c9a7;
 }
+.pagination {
+  display: block;
+  margin: 50px 0 0; 
+  padding: 0;
+}
+.pagination .page-numbers {
+  display: inline-block;
+  width: 42px;
+  height: 42px;
+  line-height: 39px;
+  text-align: center; 
+  font-size: 16px; 
+  font-weight: 500; 
+  border-radius: 50%;
+}
+.page-numbers{
+    cursor: pointer;
+}
+.page-numbers.disabled{
+    background-color: #fff;
+    cursor: no-drop;
+    color: #8d8d8d;
+    border: 1px solid #F1F1F1;
+}
+.page-numbers.disabled:hover{
+    background-color: #fff;
+    cursor: no-drop;
+    color: #8d8d8d;
+    border: 1px solid #F1F1F1;
+}
 
+
+.suggess-wrapper{ 
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc; 
+    background-color: #fff;
+}
+.suggest-list .highlight{
+    background-color: #ab8e66;
+    padding: 0 2px;
+    color: #fff;
+}
+.suggess-wrapper a{
+    float: initial;
+}
 /* -------------------- */
 /*        login         */
 /* -------------------- */

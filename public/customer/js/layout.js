@@ -1,4 +1,128 @@
 const IndexView = { 
+    Auth: {
+        isLogin(){
+            return $("#auth-value").val() == 1 ? true : false;
+        }, 
+        Login: {
+            resource: "#login",
+            getVal(){
+                var resource = this.resource;
+                var fd = new FormData();
+                var required_data = [];
+                var onPushData = true;
+
+                var data_email              = $(`${resource}`).find('.data-email').val();
+                var data_password           = $(`${resource}`).find('.data-password').val(); 
+
+                if (IndexView.Config.isEmail(data_email) == null) { 
+                    if (data_email == '') { 
+                        required_data.push('Email is required.'); onPushData = false 
+                    }else{
+                        required_data.push('Email is invalid.'); onPushData = false 
+                    }
+                }
+                if (data_password == '') { required_data.push('Password is required.'); onPushData = false }
+
+                if (onPushData) {
+                    fd.append('data_email', data_email);
+                    fd.append('data_password', data_password);  
+                    return fd;
+                }else{ 
+                    var required_noti = ``;
+                    $(`${resource} .js-errors`).remove()
+                    for (var i = 0; i < required_data.length; i++) { required_noti += `<li class="error">${required_data[i]}</li>`; }
+                    $(`${resource}`).find('.error-log').prepend(` <ul class="js-errors">${required_noti}</ul> `)
+                    return false;
+                }
+            },
+            onPush(name, callback){
+                var resource = this.resource;
+                $(document).on('click', `${resource} .form-submit`, function() {
+                    if($(this).attr('atr').trim() == name) {
+                        var data = IndexView.Auth.Login.getVal();
+                        if (data) callback(resource, data); 
+                    }
+                });
+            },
+            init(){
+                $(document).on('keypress', `.data-phone`, function(event) {
+                    return IndexView.Config.onNumberKey(event);
+                });
+            }
+        },
+        Forgot: {
+            resource: "#forgotPassword",
+            getVal(){
+                var resource = this.resource;
+                var fd = new FormData();
+                var required_data = [];
+                var onPushData = true;
+                var data_email              = $(`${resource}`).find('.data-email').val(); 
+                if (IndexView.Config.isEmail(data_email) == null || data_email == '')  onPushData = false;  
+                if (onPushData) {
+                    fd.append('data_email', data_email); 
+                    return fd;
+                }else{ 
+                    return false;
+                }
+            },
+            onPush(name, callback){
+                var resource = this.resource;
+                $(document).on('click', `${resource} .form-submit`, function() {
+                    if($(this).attr('atr').trim() == name) {
+                        var data = IndexView.Auth.Forgot.getVal();
+                        if (data) callback(data); 
+                    }
+                });
+            },
+        },
+        Reset: {
+            resource: "#forgotPassword",
+            getVal(){
+                var resource = this.resource;
+                var fd = new FormData();
+                var required_data = [];
+                var onPushData = true;
+                var data_email              = $(`${resource}`).find('.data-email').val(); 
+                var data_password              = $(`${resource}`).find('.data-password').val();
+                var data_code              = $(`${resource}`).find('.data-code').val();
+                if (IndexView.Config.isEmail(data_email) == null || data_email == '')  onPushData = false;  
+                if (data_password == "")  onPushData = false; 
+                if (data_code == "")  onPushData = false; 
+
+                if (onPushData) {
+                    fd.append('data_email', data_email); 
+                    fd.append('data_password', data_password); 
+                    fd.append('data_code', data_code); 
+                    return fd;
+                }else{ 
+                    return false;
+                }
+            },
+            onPush(name, callback){
+                var resource = this.resource;
+                $(document).on('click', `${resource} .form-submit`, function() {
+                    if($(this).attr('atr').trim() == name) {
+                        var data = IndexView.Auth.Reset.getVal();
+                        if (data) callback(data); 
+                    }
+                });
+            },
+        },
+        response: { 
+            success(resource, message){
+                $(resource).find(".js-validate .js-response").remove();
+                $(resource).find(".js-validate").prepend(`<div class="js-response js-success"><li>${message}</li></div>`)
+            },
+            error(resource, message){
+                $(resource).find(".js-validate .js-response").remove();
+                $(resource).find(".js-validate").prepend(`<div class="js-response js-errors"><li>${message}</li></div>`)
+            },                  
+        },
+        init(){
+            IndexView.Auth.Register.init()
+        }
+    }, 
     Category: {
         render(data){
             data.map(v => {
@@ -17,7 +141,7 @@ const IndexView = {
         });
 
         $(document).mouseup(function(e) {
-            var container = $(".searchProduct");
+            var container = $(".tg-searchbox");
             if (!container.is(e.target) && container.has(e.target).length === 0) {
                 $('.suggest-list .suggess-wrapper').remove()
             }
@@ -116,6 +240,11 @@ const IndexView = {
                 }
             })
     })
+    function highlight(text, inputText) {
+        var index = inputText.toLowerCase().indexOf(text.toLowerCase());
+        inputText = inputText.substring(0,index) + "<span class='highlight'>" + inputText.substring(index,index+text.length) + "</span>" + inputText.substring(index + text.length);
+        return inputText 
+    } 
     function getCart(){
         if (IndexView.Auth.isLogin()) {
             Api.Cart.GetCart()
@@ -148,6 +277,30 @@ const IndexView = {
                 .always(() => { });
         }
     }
+    async function redirect_logined(url, time) {
+        await delay(time);
+        window.location.replace(url);
+    }
+    function delay(delayInms) {
+        return new Promise(resolve => {
+            setTimeout(() => {
+                resolve(2);
+            }, delayInms);
+        });
+    }
+    IndexView.Auth.Login.onPush("Login", (resource, fd) => {
+        Api.Auth.Login(fd)
+            .done(res => {  
+                if (res.status == 500) {
+                    IndexView.Auth.response.error(resource, res.message); 
+                }else{
+                    IndexView.Auth.response.success(resource, res.message) ;
+                    redirect_logined(res.data, 1000)
+                }
+            })
+            .fail(err => {   })
+            .always(() => { });
+    }) 
     function init(){
         getCategory()
     }

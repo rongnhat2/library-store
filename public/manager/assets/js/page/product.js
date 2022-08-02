@@ -205,7 +205,7 @@ const View = {
                 $(`${resource}`).find('.data-prices').val(data[0].prices);  
                 $(`${resource} .data-category`).val(data[0].category_id);
                 $(`${resource} .data-author`).val(data[0].author_id); 
-                $(`${resource}`).find('.data-description').val(data[0].description);  
+                $(`${resource}`).find('.data-description').val(IndexView.Config.toNoTag(data[0].description));  
                 IndexView.summerNote.update(`${resource} .data-detail`, data[0].detail);
                 $(this.resource).find('.form-preview').css({
                     'background-image': `url('/${data[0].image ?? 'icon/noimage.png'}')`

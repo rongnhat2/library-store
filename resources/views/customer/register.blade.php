@@ -9,55 +9,76 @@
 
 @section('body')  
 
-	<div class="main-content main-content-login">
-		<div class="container"> 
-			<div class="row">
-				<div class="content-area col-lg-12 col-md-12 col-sm-12 col-xs-12">
-					<div class="site-main"> 
-						<div class="customer_login">
-							<div class="row">
-								<div class="col-lg-12 col-md-12 col-sm-12">
-									<div class="login-item" id="signup">
-										<h5 class="title-login">Đăng ký</h5>
-										<div class="login js-validate"> 
-											<div class="error-log"></div>
-											<p class="form-row form-row-wide">
-												<label class="text">Họ và tên</label>
-												<input title="username" type="text" class="input-text data-name">
-											</p>
-											<p class="form-row form-row-wide">
-												<label class="text">Địa chỉ</label>
-												<input title="username" type="text" class="input-text data-address">
-											</p>
-											<p class="form-row form-row-wide">
-												<label class="text">Số điện thoại</label>
-												<input title="username" type="text" class="input-text data-telephone number-type">
-											</p> 
-											<p class="form-row form-row-wide">
-												<label class="text">Email</label>
-												<input title="username" type="text" class="input-text data-email">
-											</p>
-											<p class="form-row form-row-wide">
-												<label class="text">Mật khẩu</label>
-												<input title="password" type="password" class="input-text data-password">
-											</p>
-											<p class="lost_password"> 
-												<a href="#" class="forgot-pw">Quên mật khẩu</a>
-											</p>
-											<p class="form-row">
-												<button type="button" class="button-submit form-submit" atr="Register">Đăng kí</button>  
-												<a href="{{ route("customer.view.login") }}" type="button" class="btn-auth-action register-button" atr="Login">Đăng nhập</a>  
-											</p>
-										</div>
-									</div>
-								</div> 
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+<main class="site-main  main-container no-sidebar">
+    <div class="container">
+        <div class="breadcrumb-trail breadcrumbs">
+            <ul class="trail-items breadcrumb">
+                <li class="trail-item trail-begin">
+                    <a href="">
+                            <span>
+                                ホーム
+                            </span>
+                    </a>
+                </li>
+                <li class="trail-item trail-end active">
+                        <span>
+                            ショッピングカート
+                        </span>
+                </li>
+            </ul>
+        </div>
+        <div class="row">
+            <div class="main-content-cart main-content col-sm-12">
+                <h3 class="custom_blog_title">
+                    ショッピングカート
+                </h3>
+                <div class="page-main-content">
+                    <div class="shoppingcart-content">
+                        <form action="shoppingcart.html" class="cart-form">
+                            <table class="shop_table">
+                                <thead>
+                                <tr>
+                                    <th class="product-remove"></th>
+                                    <th class="product-thumbnail"></th>
+                                    <th class="product-name"></th>
+                                    <th class="product-price"></th>
+                                    <th class="product-quantity"></th>
+                                    <th class="product-subtotal"></th>
+                                </tr>
+                                </thead>
+                                <tbody> 
+                                    <tr>
+                                        <td class="actions">
+                                            <div class="coupon">
+
+                                            </div>
+                                            <div class="order-total">
+                                                <span class="title">
+                                                    Total Price:
+                                                </span>
+                                                <span class="total-price">
+                                                    
+                                                </span>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </form>
+                        <div class="control-cart">
+                            <a href="/category" class="button btn-continue-shopping">
+                                お買い物を続ける
+                            </a>
+                            <a href="<?php if ($customer_data['is_login']): ?>  /checkout <?php else: ?> /checkout-login <?php endif ?> " class="button btn-cart-to-checkout">
+                                今すぐ購入
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
 @endsection()
 
 @section('sub_layout')

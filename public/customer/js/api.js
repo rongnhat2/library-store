@@ -3,6 +3,8 @@ const Api = {
     Author: {}, 
     Category: {},
     Product: {}, 
+    Order: {}, 
+    Order: {},
 
 };
 (() => {
@@ -71,6 +73,13 @@ const Api = {
         url: `/customer/apip/product/get-best-discount`,
         method: 'GET',
     });
+    Api.Product.GetSearch = (data) => $.ajax({
+        url: `/customer/apip/product/get-search`,
+        method: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+    });
 })();
 
  
@@ -129,4 +138,24 @@ const Api = {
         method: 'GET',
     });
 
+})();
+
+
+// Order
+(() => {
+    Api.Order.Checkout = (data) => $.ajax({
+        url: `/customer/apip/order/checkout`,
+        method: 'POST',
+        data: data,
+        contentType: false,
+        processData: false,
+    });
+    Api.Order.GetOrder = (tab) => $.ajax({
+        url: `/customer/apip/order/get`,
+        method: 'GET',
+        dataType: 'json',
+        data: {
+            tab: tab ?? null,
+        }
+    });
 })();

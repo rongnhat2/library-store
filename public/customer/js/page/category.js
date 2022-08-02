@@ -15,7 +15,7 @@ const View = {
 			data.map(v => { 
                 var real_prices     = IndexView.Config.formatPrices(v.discount == 0 ? v.prices : v.prices - (v.prices*v.discount/100));
 				$(".product-list-item")
-					.append(`<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3">
+					.append(`<div class="col-xs-6 col-sm-6 col-md-4 col-lg-3 product-item">
                                 <div class="tg-postbook">
                                     <figure class="tg-featureimg">
                                         <div class="tg-bookimg">
@@ -32,7 +32,10 @@ const View = {
                                         </div>
                                         <span class="tg-bookwriter">By: <a href="javascript:void(0);">${v.author_name}</a></span> 
                                         <span class="tg-bookprice">
-                                            <ins>${IndexView.Config.formatPrices(v.prices)} đ</ins> 
+                                            ${v.discount == 0 
+                                                ?  `<ins>${IndexView.Config.formatPrices(v.prices)+"đ"}</ins>`
+                                                :   `<ins>${IndexView.Config.formatPrices(real_prices)} đ </ins>
+                                                    <del>${IndexView.Config.formatPrices(v.prices)+"đ"}</del>`}
                                         </span>
                                         <a class="tg-btn tg-btnstyletwo action-add-to-card" atr="Add to card" href="javascript:void(0);" product-id="${v.id}">
                                             ${View.Cart.item.includes(v.id) 
@@ -255,6 +258,7 @@ const View = {
                 View.Product.render(res.data.data)
                 View.pagination.total = res.data.count;
                 View.pagination.render();
+                $(".category-data-total").text(`Tổng: ${res.data.count}`)
             })
             .fail(err => {  })
             .always(() => { });

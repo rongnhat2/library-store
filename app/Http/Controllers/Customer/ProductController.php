@@ -51,7 +51,7 @@ class ProductController extends Controller
     }
     // lấy ra sản phẩm mới
     public function get_top_view(){
-        $data = $this->product->get_top_view(3);
+        $data = $this->product->get_top_view(6);
         return $this->product->send_response(200, $data, null);
     }
     // giảm giá sâu nhất
